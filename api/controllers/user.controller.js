@@ -1,100 +1,109 @@
 const User = require('../models/user.model')
 const { Op } = require('sequelize');
 
-async function getAllUsers(req, res) {
-	
-	try {
-		const users = await User.findAll()
-		if (users) {
+const bcrypt = require('bcrypt')
+
+
+const getAllUsers = async (req, res) => {
+	if (req.user.role === admin) {
+		try {
+			const users = await User.findAll({
+				where: req.query,
+				attributes: {
+					exclude: ['password']
+				}
+			})
 			return res.status(200).json(users)
-		} else {
-			return res.status(404).send('No users found')
+		} catch (error) {
+			console.log(error)
 		}
-	} catch (error) {
-		res.status(500).send(error.message)
 	}
-}
 
-async function getOneUser(req, res) {
-	try {
-		const user = await User.findByPk(req.params.id)
-		if (user) {
-			return res.status(200).json(user)
-		} else {
-			return res.status(404).send('User not found')
+	if (req.user.role === user) {
+		try {
+			const users = await User.findAll({
+				where: req.query,
+				attributes: {
+					exclude: ['password', 'email', 'userName']
+				}
+			})
+			return res.status(200).json(users)
+		} catch (error) {
+			console.log(error)
 		}
-	} catch (error) {
-		res.status(500).send(error.message)
 	}
 }
 
-async function createUser(req, res) {
+const getOneUser = async (req, res) => {
 	try {
-		const user = await User.create(req.body)
-		return res.status(200).json({ message: 'User created', user: user })
-	} catch (error) {
-		res.status(500).send(error.message)
-	}
-}
-
-async function updateUser(req, res) {
-	try {
-		const [userExist, user] = await User.update(req.body, {
-			returning: true,
-			where: {
-				id: req.params.id,
+		const user = await User.findByPk(req.params.userId, {
+			attributes: {
+				exclude: ['password']
 			},
+			include: Contact
 		})
-		if (userExist !== 0) {
-			return res.status(200).json({ message: 'User updated', user: user })
-		} else {
+
+		if (!user) {
 			return res.status(404).send('User not found')
 		}
+
+		return res.status(200).json(user)
+
 	} catch (error) {
-		return res.status(500).send(error.message)
+		console.log(error)
 	}
 }
+const createUser = async (req, res) => {
+	try {
 
-async function deleteUser(req, res) {
+		const saltRounds = bcrypt.genSaltSync(parseInt(10))
+		const hashedPassword = bcrypt.hashSync(req.body.password, saltRounds)
+		req.body.password = hashedPassword
+
+		const newUser = await User.create({
+			userName: req.body.userName,
+			email: req.body.email,
+			password: req.body.password,
+			nickName: req.body.nickName,
+			avatar: req.body.avatar
+		})
+
+		res.status(200).json(newUser)
+	} catch (error) {
+		console.log(error)
+	}
+}
+const updateUser = async (req, res) => {
+	try {
+		const [user] = await User.update(req.body, {
+			where: {
+				id: req.params.userId
+			}
+		})
+		if (!user) {
+			return res.status(404).send('User not found')
+		}
+		return res.status(200).json({ message: 'User updated' })
+
+	} catch (error) {
+		console.log(error)
+	}
+}
+const deleteUser = async (req, res) => {
 	try {
 		const user = await User.destroy({
 			where: {
-				id: req.params.id,
-			},
+				id: req.params.userId
+			}
 		})
-		if (user) {
-			return res.status(200).json('User deleted')
-		} else {
+		if (!user) {
 			return res.status(404).send('User not found')
 		}
+
+		return res.status(200).json({ message: 'User deleted' })
+
 	} catch (error) {
-		return res.status(500).send(error.message)
-	}
-}
-
-async function getUsers(req, res) {
-
-	const queryParams = req.query;
-	const whereClause = {};
-	try {
-
-		for (const key in queryParams) {
-			whereClause[key] = { [Op.like]: `%${queryParams[key]}%` }
-		};
-	
-		
-		const users = await User.findAll(
-			{
-				where: whereClause
-			})
-		
-		if (users.length === 0) {
-			return res.status(200).json([])
-		} else {
-			return res.status(200).json(users)
-		}
-	} catch (error) {
-		res.status(500).send(error.message)
+		console.log(error)
 	}
 }
 
@@ -104,6 +113,5 @@ module.exports = {
 	getOneUser,
 	createUser,
 	updateUser,
-	deleteUser,
-	getUsers
+	deleteUser
 }

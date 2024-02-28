@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt')
 
 
 const getAllUsers = async (req, res) => {
-	if (req.user.role === admin) {
+	/*if (res.locals.role === "admin") {
 		try {
 			const users = await User.findAll({
 				where: req.query,
@@ -19,7 +19,7 @@ const getAllUsers = async (req, res) => {
 		}
 	}
 
-	if (req.user.role === user) {
+	else {
 		try {
 			const users = await User.findAll({
 				where: req.query,
@@ -31,7 +31,19 @@ const getAllUsers = async (req, res) => {
 		} catch (error) {
 			console.log(error)
 		}
-	}
+	}*/
+
+	try {
+			const users = await User.findAll({
+				where: req.query,
+				attributes: {
+					exclude: ['password']
+				}
+			})
+			return res.status(200).json(users)
+		} catch (error) {
+			console.log(error)
+		}
 }
 
 const getOneUser = async (req, res) => {

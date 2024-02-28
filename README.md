@@ -4,15 +4,15 @@
 ### Authentication Endpoints
 
 The Authentication flow for the application is:
-
-### User Signup/Login
+<details>
+<summary><b> User Signup/Login</b></summary>
 
 METHOD | ENDPOINT         | TOKEN | ROLE | DESCRIPTION              | POST PARAMS                                                                 | RETURNS
 -------|------------------|-------|------|--------------------|-----------------------------------------------------------------------------------|--------------------
 POST   | /auth/signup     | -     | user | User Signup              | `userName`, `nickName`, `avatar`, `email`, `password`                       | { message: 'User signed up successfully', data: `token`}
 POST   | /auth/login      | -     | user | User Login               | `email`, `password`                                                         | { message: 'User logged up successfully', data: `token`}
-
-### User Endpoints
+</details>
+<details> <summary><b>User Endpoints</b></summary>
 
 METHOD | ENDPOINT         | TOKEN | ROLE | DESCRIPTION              | POST PARAMS                                                                 | RETURNS
 -------|------------------|-------|------|--------------------|-----------------------------------------------------------------------------------|--------------------
@@ -25,8 +25,9 @@ PATCH  | /user/password   | YES   | user | Reset password           | `newPasswo
 PATCH  | /user/:userId    | YES   | admin| Update one user          | `params: userId`, `userName`, `nickName`, `avatar`, `email`, `role`, `password`, `level`   | { message: 'User updated successfully', data: [`user`]}
 DELETE | /user/:userId    | YES   | admin| Delete one user          |  `params: userId`                                                           | { message: 'User deleted successfully', data: [`user`]}
 DELETE | /user/:userId    | YES   | user | Delete own profile       |                                                                             | { message: 'User deleted successfully', data: [`user`]}
-
-### Game Endpoints
+</details>
+<details>
+<summary><b> Game Endpoints</summary></b>
 
 METHOD | ENDPOINT         | TOKEN | ROLE | DESCRIPTION              | POST PARAMS                                     | RETURNS
 -------|------------------|-------|------|--------------------------|-------------------------------------------------|--------------------
@@ -36,8 +37,9 @@ POST   | /game            | YES   | admin  | Post new Game          |  `params: 
 PATCH    | /game/:gameId/favorite   | YES   | user | Add to favorite  |  `params: gameId`                              | { message: 'User add favorite game successfully', data: `game`}
 PATCH  | /game/:gameId     | YES   | admin  | Update a Game         |  `params: title, about, system`                  | { message: 'Admin update game successfully', data: `game`}
 DELETE | /game/:gameID    | YES   | user | Delete a Game            |                                                  | { message: 'Game deleted successfully', data: [`game`]}
-
-### Theme Endpoints
+</details>
+<details>
+<summary><b> Theme Endpoints</summary></b>
 
 METHOD | ENDPOINT         | TOKEN | ROLE | DESCRIPTION              | POST PARAMS                                     | RETURNS
 -------|------------------|-------|------|--------------------------|-------------------------------------------------|--------------------
@@ -46,8 +48,9 @@ GET    | /theme/:name      | YES   | user | Get One theme             |         
 POST   | /theme            | YES   | admin  | Post new theme          |  `params: name, description`                  | { message: 'Admin create new theme successfully', data: `theme`}
 PATCH  | /theme/:themeId   | YES   | admin | Update a theme            |  `params: name, description`                 | { message: 'Admin update theme successfully', data: `theme`}
 DELETE | /theme/:themeId    | YES   | admin | Delete a theme            |                                              | { message: 'Theme deleted successfully', data: [`theme`]}
-
-### Inventory Endpoints
+</details>
+<details>
+<summary><b>Inventory Endpoints</b></summary>
 
 METHOD | ENDPOINT         | TOKEN | ROLE | DESCRIPTION              | POST PARAMS                                     | RETURNS
 -------|------------------|-------|------|--------------------------|-------------------------------------------------|--------------------
@@ -56,8 +59,9 @@ GET    | /inventory/:itemName  | YES   | admin | Get One Item             |     
 POST   | /inventory            | YES   | admin  | Post new Item          |  `params: Item, amount, gameId`                  | { message: 'Admin create new Item successfully', data: `inventory`}
 PATCH  | /inventory/:itemId   | YES   | admin | Update a Item            |  `params: Item, amount, gameId`                | { message: 'Admin update Item successfully', data: `inventory`}
 DELETE | /inventory/:itemId    | YES   | admin | Delete a Item            |                                              | { message: 'Item deleted successfully', data: [`inventory`]}
-
-### Sessions Endpoints
+</details>
+<details>
+<summary><b>Sessions Endpoints</summary></b>
 
 METHOD | ENDPOINT         | TOKEN | ROLE | DESCRIPTION              | POST PARAMS                                     | RETURNS
 -------|------------------|-------|------|--------------------------|-------------------------------------------------|--------------------
@@ -66,8 +70,9 @@ GET    | /session/:sessionId  | YES   | user | Get One session             |    
 POST   | /session            | YES   | admin/master  | Post new session |  `params: gameId, masterId, type, date, location, address` | { message: 'Admin or Master create new session successfully', data: `session`}
 PATCH  | /session/:sessionId   | YES   | admin/master | Update a session |  `params: gameId, masterId, type, date, location, address`| { message: 'Admin or Master update session successfully', data: `session`}
 DELETE | /session/:sessionId    | YES   | admin | Delete a session            |                                              | { message: 'Session deleted successfully', data: [`session`]}
-
-### Session_player Endpoints
+</details>
+<details>
+<summary><b>Session_player Endpoints</summary></b>
 
 METHOD | ENDPOINT         | TOKEN | ROLE | DESCRIPTION              | POST PARAMS                                     | RETURNS
 -------|------------------|-------|------|--------------------------|-------------------------------------------------|--------------------
@@ -76,8 +81,9 @@ GET    | /session_player/:sessionId  | YES   | user | Get One session_player    
 POST   | /session_player  | YES   | user  | Post new session_player |  `params: sessionId, UserId, Character`       | { message: 'User create new session_player successfully', data: `session_player`}
 PATCH  | /session_player/:session_playerId   | YES   | user/admin | Update a session |  `params: gameId, sessionId, Character`| { message: 'User update session_player successfully', data: `session_player`}
 DELETE | /session_player/:session_playerId    | YES   | user/admin | Delete a session_player                           | { message: 'session_player deleted successfully', data: [`session_player`]}
-
-### Master Endpoints
+</details>
+<details>
+<summary><b>Master Endpoints</summary></b>
 
 METHOD | ENDPOINT         | TOKEN | ROLE | DESCRIPTION              | POST PARAMS                                     | RETURNS
 -------|------------------|-------|------|--------------------------|-------------------------------------------------|--------------------
@@ -86,8 +92,9 @@ GET    | /master/:masterId  | YES   | user | Get One master                     
 POST   | /master          | YES   | admin  | Post new master       |  `params: gameId, UserId`       | { message: 'Admin create new master', data: `master`}
 PATCH  | /master/:masterId   | YES   | admin | Update a master |  `params: gameId, UserId`                          | { message: 'Admin update master successfully', data: `master`}
 DELETE | /master/:masterId    | YES   | admin | Delete a master                           | { message: 'master deleted successfully', data: [`master`]}
-
-### Favorites Endpoints
+</details>
+<details>
+<summary><b>Favorites Endpoints</summary></b>
 
 METHOD | ENDPOINT         | TOKEN | ROLE | DESCRIPTION              | POST PARAMS                                     | RETURNS
 -------|------------------|-------|------|--------------------------|-------------------------------------------------|--------------------
@@ -96,8 +103,9 @@ GET    | /favorites/:userId  | YES   | user | Get One User favorites            
 POST   | /favorite          | YES   | user  | Post new favorite       |  `params: gameId, UserId`       | { message: 'User create new favorite', data: `favorites`}
 PATCH  | /favorite/:favoriteId   | YES   | user | Update a favorite |  `params: gameId, UserId`                          | { message: 'User update favorites successfully', data: `favorites`}
 DELETE | /favorite/:favoriteId    | YES   | user | Delete a favorite                           | { message: 'favorite deleted successfully', data: [`favorites`]}
-
-### User_Games Endpoints
+</details>
+<details>
+<summary><b>User_Games Endpoints</summary></b>
 
 METHOD | ENDPOINT         | TOKEN | ROLE | DESCRIPTION              | POST PARAMS                                     | RETURNS
 -------|------------------|-------|------|--------------------------|-------------------------------------------------|--------------------
@@ -106,8 +114,9 @@ GET    | /user_games/:userId  | YES   | user | Get One User user_games          
 POST   | /user_games          | YES   | user  | Post new user_games       |  `params: gameId, UserId`       | { message: 'User create new user_games', data: `user_games`}
 PATCH  | /user_games/:user_gamesId   | YES   | user | Update a favorite |  `params: gameId, UserId`                          | { message: 'User update user_games successfully', data: `user_games`}
 DELETE | /user_games/:user_gamesId    | YES   | user | Delete a user_games                           | { message: 'user_games deleted successfully', data: [`user_games`]}
-
-### Game_themes Endpoints
+</details>
+<details>
+<summary><b>Game_themes Endpoints</summary></b>
 
 METHOD | ENDPOINT         | TOKEN | ROLE | DESCRIPTION              | POST PARAMS                                     | RETURNS
 -------|------------------|-------|------|--------------------------|-------------------------------------------------|--------------------
@@ -116,3 +125,4 @@ GET    | /game_themes/:themeId  | YES   | user | Get One game_themes            
 POST   | /game_themes          | YES   | admin  | Post new game_themes       |  `params: gameId, themeId`       | { message: 'Admin create new game_themes', data: `game_themes`}
 PATCH  | /game_themes/:game_themesId   | YES   | admin | Update a game_themes |  `params: gameId, themeId`             | { message: 'Admin update game_themes successfully', data: `game_themes`}
 DELETE | /game_themes/:game_themesId    | YES   | admin | Delete a game_themes                           | { message: 'game_themes deleted successfully', data: [`game_themes`]}
+</details>

@@ -1,15 +1,15 @@
 const router = require('express').Router()
 
-const { getAllUsers, getOneUser, createUser, updateUser, deleteUser, getUsers } = require('../controllers/theme.controller')
+const { getAllThemes, getOneTheme, createTheme, updateTheme, deleteTheme, getThemes } = require('../controllers/theme.controller')
 
-router.get('/find', getUsers)
-router.get('/:id', getOneUser)
-router.get('/', getAllUsers)
+router.get('/find', getThemes)
+router.get('/:id', getOneTheme)
+router.get('/', getAllThemes)
 
-router.post('/', createUser)
+router.post('/', createTheme)
 
-router.put('/:id', updateUser)
+router.put('/:id', updateTheme)
 
-router.delete('/:id', deleteUser)
+router.delete('/:id', deleteTheme)
 
 module.exports = router

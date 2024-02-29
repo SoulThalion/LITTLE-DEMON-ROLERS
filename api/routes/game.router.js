@@ -1,15 +1,15 @@
 const router = require('express').Router()
 
-const { getAllUsers, getOneUser, createUser, updateUser, deleteUser, getUsers } = require('../controllers/game.controller')
+const { getAllGames, getOneGame, createGame, updateGame, deleteGame, getGames } = require('../controllers/game.controller')
 
-router.get('/find', getUsers)
-router.get('/:id', getOneUser)
-router.get('/', getAllUsers)
+router.get('/find', getGames)
+router.get('/:id', getOneGame)
+router.get('/', getAllGames)
 
-router.post('/', createUser)
+router.post('/', createGame)
 
-router.put('/:id', updateUser)
+router.put('/:id', updateGame)
 
-router.delete('/:id', deleteUser)
+router.delete('/:id', deleteGame)
 
 module.exports = router

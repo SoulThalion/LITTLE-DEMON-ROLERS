@@ -1,78 +1,78 @@
 const Theme = require('../models/theme.model')
 const { Op } = require('sequelize');
 
-async function getAllUsers(req, res) {
+async function getAllThemes(req, res) {
 	
 	try {
-		const users = await User.findAll()
-		if (users) {
-			return res.status(200).json(users)
+		const themes = await Theme.findAll()
+		if (themes) {
+			return res.status(200).json(themes)
 		} else {
-			return res.status(404).send('No users found')
+			return res.status(404).send('No themes found')
 		}
 	} catch (error) {
 		res.status(500).send(error.message)
 	}
 }
 
-async function getOneUser(req, res) {
+async function getOneTheme(req, res) {
 	try {
-		const user = await User.findByPk(req.params.id)
-		if (user) {
-			return res.status(200).json(user)
+		const theme = await Theme.findByPk(req.params.id)
+		if (theme) {
+			return res.status(200).json(theme)
 		} else {
-			return res.status(404).send('User not found')
+			return res.status(404).send('Theme not found')
 		}
 	} catch (error) {
 		res.status(500).send(error.message)
 	}
 }
 
-async function createUser(req, res) {
+async function createTheme(req, res) {
 	try {
-		const user = await User.create(req.body)
-		return res.status(200).json({ message: 'User created', user: user })
+		const theme = await Theme.create(req.body)
+		return res.status(200).json({ message: 'Theme created', theme: theme })
 	} catch (error) {
 		res.status(500).send(error.message)
 	}
 }
 
-async function updateUser(req, res) {
+async function updateTheme(req, res) {
 	try {
-		const [userExist, user] = await User.update(req.body, {
+		const [themeExist, theme] = await Theme.update(req.body, {
 			returning: true,
 			where: {
 				id: req.params.id,
 			},
 		})
-		if (userExist !== 0) {
-			return res.status(200).json({ message: 'User updated', user: user })
+		if (themeExist !== 0) {
+			return res.status(200).json({ message: 'Theme updated', theme: theme })
 		} else {
-			return res.status(404).send('User not found')
+			return res.status(404).send('Theme not found')
 		}
 	} catch (error) {
 		return res.status(500).send(error.message)
 	}
 }
 
-async function deleteUser(req, res) {
+async function deleteTheme(req, res) {
 	try {
-		const user = await User.destroy({
+		const theme = await Theme.destroy({
 			where: {
 				id: req.params.id,
 			},
 		})
-		if (user) {
-			return res.status(200).json('User deleted')
+		if (theme) {
+			return res.status(200).json('Theme deleted')
 		} else {
-			return res.status(404).send('User not found')
+			return res.status(404).send('Theme not found')
 		}
 	} catch (error) {
 		return res.status(500).send(error.message)
 	}
 }
 
-async function getUsers(req, res) {
+async function getThemes(req, res) {
 
 	const queryParams = req.query;
 	const whereClause = {};
@@ -83,15 +83,15 @@ async function getUsers(req, res) {
 		};
 	
 		
-		const users = await User.findAll(
+		const themes = await User.findAll(
 			{
 				where: whereClause
 			})
 		
-		if (users.length === 0) {
+		if (themes.length === 0) {
 			return res.status(200).json([])
 		} else {
-			return res.status(200).json(users)
+			return res.status(200).json(themes)
 		}
 	} catch (error) {
 		res.status(500).send(error.message)
@@ -100,10 +100,10 @@ async function getUsers(req, res) {
 
 
 module.exports = {
-	getAllUsers,
-	getOneUser,
-	createUser,
-	updateUser,
-	deleteUser,
-	getUsers
+	getAllThemes,
+	getOneTheme,
+	createTheme,
+	updateTheme,
+	deleteTheme,
+	getThemes
 }

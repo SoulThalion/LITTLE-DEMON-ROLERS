@@ -1,78 +1,78 @@
 const Game = require('../models/game.model')
 const { Op } = require('sequelize');
 
-async function getAllUsers(req, res) {
+async function getAllGames(req, res) {
 	
 	try {
-		const users = await User.findAll()
-		if (users) {
-			return res.status(200).json(users)
+		const games = await User.findAll()
+		if (games) {
+			return res.status(200).json(games)
 		} else {
-			return res.status(404).send('No users found')
+			return res.status(404).send('No games found')
 		}
 	} catch (error) {
 		res.status(500).send(error.message)
 	}
 }
 
-async function getOneUser(req, res) {
+async function getOneGame(req, res) {
 	try {
-		const user = await User.findByPk(req.params.id)
-		if (user) {
-			return res.status(200).json(user)
+		const game = await Game.findByPk(req.params.id)
+		if (game) {
+			return res.status(200).json(game)
 		} else {
-			return res.status(404).send('User not found')
+			return res.status(404).send('Game not found')
 		}
 	} catch (error) {
 		res.status(500).send(error.message)
 	}
 }
 
-async function createUser(req, res) {
+async function createGame(req, res) {
 	try {
-		const user = await User.create(req.body)
-		return res.status(200).json({ message: 'User created', user: user })
+		const game = await Game.create(req.body)
+		return res.status(200).json({ message: 'Game created', game: game })
 	} catch (error) {
 		res.status(500).send(error.message)
 	}
 }
 
-async function updateUser(req, res) {
+async function updateGame(req, res) {
 	try {
-		const [userExist, user] = await User.update(req.body, {
+		const [gameExist, game] = await Game.update(req.body, {
 			returning: true,
 			where: {
 				id: req.params.id,
 			},
 		})
-		if (userExist !== 0) {
-			return res.status(200).json({ message: 'User updated', user: user })
+		if (gameExist !== 0) {
+			return res.status(200).json({ message: 'Game updated', game: game })
 		} else {
-			return res.status(404).send('User not found')
+			return res.status(404).send('Game not found')
 		}
 	} catch (error) {
 		return res.status(500).send(error.message)
 	}
 }
 
-async function deleteUser(req, res) {
+async function deleteGame(req, res) {
 	try {
-		const user = await User.destroy({
+		const game = await Game.destroy({
 			where: {
 				id: req.params.id,
 			},
 		})
-		if (user) {
-			return res.status(200).json('User deleted')
+		if (game) {
+			return res.status(200).json('Game deleted')
 		} else {
-			return res.status(404).send('User not found')
+			return res.status(404).send('Game not found')
 		}
 	} catch (error) {
 		return res.status(500).send(error.message)
 	}
 }
 
-async function getUsers(req, res) {
+async function getGames(req, res) {
 
 	const queryParams = req.query;
 	const whereClause = {};
@@ -83,15 +83,15 @@ async function getUsers(req, res) {
 		};
 	
 		
-		const users = await User.findAll(
+		const games = await User.findAll(
 			{
 				where: whereClause
 			})
 		
-		if (users.length === 0) {
+		if (games.length === 0) {
 			return res.status(200).json([])
 		} else {
-			return res.status(200).json(users)
+			return res.status(200).json(games)
 		}
 	} catch (error) {
 		res.status(500).send(error.message)
@@ -100,10 +100,10 @@ async function getUsers(req, res) {
 
 
 module.exports = {
-	getAllUsers,
-	getOneUser,
-	createUser,
-	updateUser,
-	deleteUser,
-	getUsers
+	getAllGames,
+	getOneGame,
+	createGame,
+	updateGame,
+	deleteGame,
+	getGames
 }

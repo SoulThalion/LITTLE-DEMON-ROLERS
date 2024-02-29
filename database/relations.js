@@ -7,7 +7,7 @@ const SessionPlayer = require('../api/models/sessionPlayer.model')
 const Inventory = require('../api/models/inventory.model')
 
 
-
+//Many to Many
 function addRelationsToModels() {
 	try {
 

@@ -1,4 +1,5 @@
 const User = require('../models/user.model')
+const Master = require('../models/master.model')
 const { Op } = require('sequelize');
 
 const bcrypt = require('bcrypt')
@@ -84,6 +85,8 @@ const createUser = async (req, res) => {
 		console.log(error)
 	}
 }
+
+
 const updateUser = async (req, res) => {
 	try {
 		const [user] = await User.update(req.body, {

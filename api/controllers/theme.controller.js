@@ -83,7 +83,7 @@ async function getThemes(req, res) {
 		};
 	
 		
-		const themes = await User.findAll(
+		const themes = await Theme.findAll(
 			{
 				where: whereClause
 			})

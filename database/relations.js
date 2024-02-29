@@ -13,33 +13,33 @@ function addRelationsToModels() {
 
 		User.belongsToMany(Game, {
 			through: 'favorites',
-			
-				onDelete: 'cascade',
-				onUpdate: 'cascade',
-				timestamps: false
-				
+
+			onDelete: 'cascade',
+			onUpdate: 'cascade',
+			timestamps: false
+
 		})
 
 		Game.belongsToMany(User, {
 			through: 'favorites',
-			
+
 			onDelete: 'cascade',
 			onUpdate: 'cascade',
 			timestamps: false
-			
+
 		})
 
 		User.belongsToMany(Game, {
 			through: 'userGames',
-			
-				onDelete: 'cascade',
-				onUpdate: 'cascade',
-				timestamps: false
+
+			onDelete: 'cascade',
+			onUpdate: 'cascade',
+			timestamps: false
 		})
 
 		Game.belongsToMany(User, {
 			through: 'userGames',
-			
+
 			onDelete: 'cascade',
 			onUpdate: 'cascade',
 			timestamps: false
@@ -48,9 +48,9 @@ function addRelationsToModels() {
 		User.belongsToMany(Game, {
 			through: Master,
 			as: 'MastersGame',
-				onDelete: 'cascade',
-				onUpdate: 'cascade',
-				timestamps: false
+			onDelete: 'cascade',
+			onUpdate: 'cascade',
+			timestamps: false
 		})
 
 		Game.belongsToMany(User, {
@@ -63,15 +63,15 @@ function addRelationsToModels() {
 
 		Theme.belongsToMany(Game, {
 			through: 'gameThemes',
-			
-				onDelete: 'cascade',
-				onUpdate: 'cascade',
-				timestamps: false
+
+			onDelete: 'cascade',
+			onUpdate: 'cascade',
+			timestamps: false
 		})
 
 		Game.belongsToMany(Theme, {
 			through: 'gameThemes',
-			
+
 			onDelete: 'cascade',
 			onUpdate: 'cascade',
 			timestamps: false
@@ -86,49 +86,49 @@ function addRelationsToModels() {
 
 		Session.belongsToMany(User, {
 			through: SessionPlayer,
-			
-				onDelete: 'cascade',
-				onUpdate: 'cascade',
-				timestamps: false
+
+			onDelete: 'cascade',
+			onUpdate: 'cascade',
+			timestamps: false
 		})
 
 		User.belongsToMany(Session, {
 			through: SessionPlayer,
-			
+
 			onDelete: 'cascade',
 			onUpdate: 'cascade',
 			timestamps: false
 		})
 
 		Game.hasOne(Inventory, { onDelete: 'cascade', onUpdate: 'cascade' });
-			Inventory.belongsTo(Game, { onDelete: 'cascade', onUpdate: 'cascade' });
-
-		
-
-			/*User.belongsTo(Country);
-			Country.hasMany(User);
+		Inventory.belongsTo(Game, { onDelete: 'cascade', onUpdate: 'cascade' });
 
 
-			User.hasOne(Address, { onDelete: 'cascade', onUpdate: 'cascade' });
-			Address.belongsTo(User, { onDelete: 'cascade', onUpdate: 'cascade' });
+
+		/*User.belongsTo(Country);
+		Country.hasMany(User);
 
 
-			Actor.belongsToMany(Movie, {
-				through: 'ActorMovie',
-				as: 'ActorMovies',
-				onDelete: 'cascade',
-				onUpdate: 'cascade',
-				timestamps: false
-			});
-			Movie.belongsToMany(Actor, {
-				through: 'ActorMovie',
-				as: 'ActorMovies',
-				onDelete: 'cascade',
-				onUpdate: 'cascade',
-				timestamps: false
-			});*/
+		User.hasOne(Address, { onDelete: 'cascade', onUpdate: 'cascade' });
+		Address.belongsTo(User, { onDelete: 'cascade', onUpdate: 'cascade' });
 
-			console.log('Relations added to all models');
+
+		Actor.belongsToMany(Movie, {
+			through: 'ActorMovie',
+			as: 'ActorMovies',
+			onDelete: 'cascade',
+			onUpdate: 'cascade',
+			timestamps: false
+		});
+		Movie.belongsToMany(Actor, {
+			through: 'ActorMovie',
+			as: 'ActorMovies',
+			onDelete: 'cascade',
+			onUpdate: 'cascade',
+			timestamps: false
+		});*/
+
+		console.log('Relations added to all models');
 	} catch (error) {
 		throw error
 	}

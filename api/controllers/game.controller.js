@@ -83,7 +83,7 @@ async function getGames(req, res) {
 		};
 	
 		
-		const games = await User.findAll(
+		const games = await Game.findAll(
 			{
 				where: whereClause
 			})

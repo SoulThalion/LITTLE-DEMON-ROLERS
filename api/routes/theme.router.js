@@ -8,7 +8,7 @@ router.get('/', getAllThemes)
 
 router.post('/', createTheme)
 
-router.put('/:id', updateTheme)
+router.patch('/:id', updateTheme)
 
 router.delete('/:id', deleteTheme)
 

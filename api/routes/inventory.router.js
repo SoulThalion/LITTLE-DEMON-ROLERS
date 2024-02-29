@@ -8,7 +8,7 @@ router.get('/', getAllItems)
 
 router.post('/', createItem)
 
-router.put('/:id', updateItem)
+router.patch('/:id', updateItem)
 
 router.delete('/:id', deleteItem)
 

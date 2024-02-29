@@ -4,7 +4,7 @@ const { Op } = require('sequelize');
 async function getAllGames(req, res) {
 	
 	try {
-		const games = await User.findAll()
+		const games = await Game.findAll()
 		if (games) {
 			return res.status(200).json(games)
 		} else {

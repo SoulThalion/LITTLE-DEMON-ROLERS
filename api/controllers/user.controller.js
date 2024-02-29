@@ -48,11 +48,10 @@ const getAllUsers = async (req, res) => {
 
 const getOneUser = async (req, res) => {
 	try {
-		const user = await User.findByPk(req.params.userId, {
+		const user = await User.findByPk(req.params.id, {
 			attributes: {
 				exclude: ['password']
-			},
-			include: Contact
+			}
 		})
 
 		if (!user) {
@@ -89,7 +88,7 @@ const updateUser = async (req, res) => {
 	try {
 		const [user] = await User.update(req.body, {
 			where: {
-				id: req.params.userId
+				id: req.params.id
 			}
 		})
 		if (!user) {
@@ -105,7 +104,7 @@ const deleteUser = async (req, res) => {
 	try {
 		const user = await User.destroy({
 			where: {
-				id: req.params.userId
+				id: req.params.id
 			}
 		})
 		if (!user) {

@@ -8,7 +8,7 @@ router.get('/', getAllGames)
 
 router.post('/', createGame)
 
-router.put('/:id', updateGame)
+router.patch('/:id', updateGame)
 
 router.delete('/:id', deleteGame)
 

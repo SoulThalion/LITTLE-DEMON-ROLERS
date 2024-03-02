@@ -6,7 +6,8 @@ const bcrypt = require('bcrypt')
 
 
 const getAllUsers = async (req, res) => {
-	/*if (res.locals.role === "admin") {
+	console.log(res.locals.user.role)
+	if (res.locals.user.role === "admin") {
 		try {
 			const users = await User.findAll({
 				where: req.query,
@@ -32,9 +33,9 @@ const getAllUsers = async (req, res) => {
 		} catch (error) {
 			console.log(error)
 		}
-	}*/
+	}
 
-	try {
+	/*try {
 			const users = await User.findAll({
 				where: req.query,
 				attributes: {
@@ -44,26 +45,47 @@ const getAllUsers = async (req, res) => {
 			return res.status(200).json(users)
 		} catch (error) {
 			console.log(error)
-		}
+		}*/
 }
 
 const getOneUser = async (req, res) => {
-	try {
-		const user = await User.findByPk(req.params.id, {
-			attributes: {
-				exclude: ['password']
+
+	if (res.locals.user.role === "admin") {
+		try {
+			const user = await User.findByPk(req.params.id, {
+				attributes: {
+					exclude: ['password']
+				}
+			})
+
+			if (!user) {
+				return res.status(404).send('User not found')
 			}
-		})
 
-		if (!user) {
-			return res.status(404).send('User not found')
+			return res.status(200).json(user)
+
+		} catch (error) {
+			console.log(error)
 		}
+	} else {
+		try {
+			const user = await User.findByPk(req.params.id, {
+				attributes: {
+					exclude: ['password', 'email', 'userName']
+				}
+			})
 
-		return res.status(200).json(user)
+			if (!user) {
+				return res.status(404).send('User not found')
+			}
 
-	} catch (error) {
-		console.log(error)
+			return res.status(200).json(user)
+
+		} catch (error) {
+			console.log(error)
+		}
 	}
+
 }
 const createUser = async (req, res) => {
 	try {

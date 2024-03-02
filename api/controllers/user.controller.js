@@ -77,7 +77,6 @@ const createUser = async (req, res) => {
 			email: req.body.email,
 			password: req.body.password,
 			nickName: req.body.nickName,
-			avatar: req.body.avatar
 		})
 
 		res.status(200).json(newUser)

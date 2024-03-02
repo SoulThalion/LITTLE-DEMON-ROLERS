@@ -4,7 +4,7 @@ const User = require('../models/user.model');
 
 const signUp = async (req, res) => {
   try {
-    const { email, password, role } = req.body;
+    const { userName, nickName, email, password } = req.body;
     const checkUser = await User.findOne({ where: { email: email } });
 
     if (checkUser)
@@ -15,13 +15,14 @@ const signUp = async (req, res) => {
     const hashedPassword = bcrypt.hashSync(password, 10);
 
     const newUser = await User.create({
+      userName,
+      nickName,
       email,
       password: hashedPassword,
-      role
     });
 
     const token = jwt.sign({ email: newUser.email }, process.env.JWT_SECRET, {
-      expiresIn: '1y',
+      expiresIn: '1d',
     });
 
     delete newUser.password;

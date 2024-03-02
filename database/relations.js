@@ -12,8 +12,8 @@ function addRelationsToModels() {
 	try {
 
 		User.belongsToMany(Game, {
-			through: 'favorites',
-
+			through: 'Favorites',
+    		as: 'Favorite',
 			onDelete: 'cascade',
 			onUpdate: 'cascade',
 			timestamps: false
@@ -21,8 +21,8 @@ function addRelationsToModels() {
 		})
 
 		Game.belongsToMany(User, {
-			through: 'favorites',
-
+			through: 'Favorites',
+    		as: 'Favorite',
 			onDelete: 'cascade',
 			onUpdate: 'cascade',
 			timestamps: false

@@ -85,8 +85,29 @@ const getOneUser = async (req, res) => {
 			console.log(error)
 		}
 	}
-
 }
+
+const getMyUser = async (req, res) => {
+
+		try {
+			const user = await User.findByPk(res.locals.user.id, {
+				attributes: {
+					exclude: ['password']
+				}
+			})
+
+			if (!user) {
+				return res.status(404).send('User not found')
+			}
+
+			return res.status(200).json(user)
+
+		} catch (error) {
+			console.log(error)
+		}
+	} 
+
+
 const createUser = async (req, res) => {
 	try {
 
@@ -148,5 +169,6 @@ module.exports = {
 	getOneUser,
 	createUser,
 	updateUser,
-	deleteUser
+	deleteUser,
+	getMyUser
 }

@@ -168,24 +168,15 @@ const getAllFavorites = async (req, res) => {
 
 		const userId = res.locals.user.id
 
+		const user = await User.findByPk(userId)
 
-		//const favs = await user.getSeries()
-
-		const user = await User.findByPk(userId, {
-			include: [
-				{
-					model: Serie,
-					as: 'Favorite'
-				}
-			]
-		})
+		const favs = await user.getFavorite({
+	joinTableAttributes: []
+	})
 
 		res.status(200).json({
-			series: user.Favorite
+			favs
 		})
-
-		console.log(user);
-
 
 
 	} catch (error) {
@@ -198,7 +189,7 @@ const getAllFavorites = async (req, res) => {
 
 const createFavorite = async (req, res) => {
 
-	/*try {
+	try {
 
 		const gameId = req.params.gameId
 
@@ -208,7 +199,7 @@ const createFavorite = async (req, res) => {
 
 		console.log(game)
 
-		const fav = await user.addFavorites(game)
+		const fav = await user.addFavorite(game)
 
 		if (fav) {
 			res.status(200).json({
@@ -222,16 +213,27 @@ const createFavorite = async (req, res) => {
 		res.status(500).json({
 			message: '>> Cannot add fav.',
 		});
-	}*/
+	}
 };
 
 const deleteFavorite = async (req, res) => {
 	try {
+		const gameId = req.params.gameId
+
+		const user = res.locals.user
+
+		const game = await Game.findByPk(gameId)
+
+		const fav = await user.removeFavorite(game)
+
+		if (fav) {
+			res.status(200).json({
+				message: '!!Juego borrado de tus favs',
+				fav
+			})
+		}
 	} catch (error) {
-		console.error(error);
-		res.status(500).json({
-			message: '>> Cannot delete fav.',
-		});
+		return res.status(500).send(error.message)
 	}
 };
 

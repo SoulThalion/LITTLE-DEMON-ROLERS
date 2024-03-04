@@ -7,10 +7,10 @@ router.get('/find', checkAuth, getSessions)
 router.get('/:id', checkAuth, getOneSession)
 router.get('/', checkAuth, getAllSessions)
 
-router.post('/', checkAuth, isAdmin, createSession)
+router.post('/', checkAuth, createSession)
 
 router.patch('/:id', checkAuth, isAdmin, updateSession)
 
-router.delete('/:id', checkAuth, isAdmin, deleteSession)
+router.delete('/:id', checkAuth, deleteSession)
 
 module.exports = router

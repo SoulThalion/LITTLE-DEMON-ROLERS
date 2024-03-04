@@ -1,8 +1,9 @@
 const Session = require('../models/session.model')
+const Master = require('../models/master.model')
 const { Op } = require('sequelize');
 
 async function getAllSessions(req, res) {
-	
+
 	try {
 		const sessions = await Session.findAll()
 		if (sessions) {
@@ -29,11 +30,41 @@ async function getOneSession(req, res) {
 }
 
 async function createSession(req, res) {
-	try {
-		const session = await Session.create(req.body)
-		return res.status(200).json({ message: 'Session created', session: session })
-	} catch (error) {
-		res.status(500).send(error.message)
+
+	if (res.locals.user.role === 'admin') {
+		try {
+			const session = await Session.create(req.body)
+			return res.status(200).json({ message: 'Session created', session: session })
+		} catch (error) {
+			res.status(500).send(error.message)
+		}
+	} else {
+		try {
+			const master = await Master.findOne({
+				where: {
+					userId: res.locals.user.id,
+					gameId: req.body.gameId
+				}
+			});
+
+			console.log(master.dataValues.id)
+
+			if (master) {
+				const session = await Session.create({
+					type: req.body.type,
+					date: req.body.date,
+					location: req.body.location,
+					adress: req.body.adress,
+					gameId: req.body.gameId,
+					masterId: master.dataValues.id
+				})
+				return res.status(200).json({ message: 'Session created', session: session })
+			} else {
+				return res.status(404).send('No eres Master de este juego')
+			}
+		} catch (error) {
+			res.status(500).send(error.message)
+		}
 	}
 }
 
@@ -56,19 +87,54 @@ async function updateSession(req, res) {
 }
 
 async function deleteSession(req, res) {
-	try {
-		const session = await Session.destroy({
-			where: {
-				id: req.params.id,
-			},
-		})
+	if (res.locals.user.role === 'admin') {
+		try {
+			const session = await Session.destroy({
+				where: {
+					id: req.params.id,
+				},
+			})
+			if (session) {
+				return res.status(200).json('Session deleted')
+			} else {
+				return res.status(404).send('Session not found')
+			}
+		} catch (error) {
+			return res.status(500).send(error.message)
+		}
+	} else {
+
+		const session = await Session.findByPk(req.params.id)
+
 		if (session) {
-			return res.status(200).json('Session deleted')
+
+			const master = session.masterId
+
+			const coincidencia = await Master.findOne({
+				where: {
+					id: master,
+					userId: res.locals.user.id
+				}
+			})
+
+			if (coincidencia) {
+				try {
+					const session = await Session.destroy({
+						where: {
+							id: req.params.id,
+						},
+					})
+					return res.status(200).json('Session deleted')
+				} catch (error) {
+					return res.status(500).send(error.message)
+				}
+			} else {
+				return res.status(404).send('You are not Master of this Session')
+			}
 		} else {
 			return res.status(404).send('Session not found')
 		}
-	} catch (error) {
-		return res.status(500).send(error.message)
+
 	}
 }
 
@@ -81,13 +147,13 @@ async function getSessions(req, res) {
 		for (const key in queryParams) {
 			whereClause[key] = { [Op.like]: `%${queryParams[key]}%` }
 		};
-	
-		
+
+
 		const sessions = await Session.findAll(
 			{
 				where: whereClause
 			})
-		
+
 		if (sessions.length === 0) {
 			return res.status(200).json([])
 		} else {

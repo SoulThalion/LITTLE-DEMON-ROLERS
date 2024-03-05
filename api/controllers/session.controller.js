@@ -106,7 +106,6 @@ async function createSession(req, res) {
 				}
 			});
 
-			console.log(master.dataValues.id)
 
 			if (master) {
 				const session = await Session.create({

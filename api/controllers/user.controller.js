@@ -34,18 +34,6 @@ const getAllUsers = async (req, res) => {
 			console.log(error)
 		}
 	}
-
-	/*try {
-			const users = await User.findAll({
-				where: req.query,
-				attributes: {
-					exclude: ['password']
-				}
-			})
-			return res.status(200).json(users)
-		} catch (error) {
-			console.log(error)
-		}*/
 }
 
 const getOneUser = async (req, res) => {
@@ -171,8 +159,8 @@ const getAllFavorites = async (req, res) => {
 		const user = await User.findByPk(userId)
 
 		const favs = await user.getFavorite({
-	joinTableAttributes: []
-	})
+			joinTableAttributes: []
+		})
 
 		res.status(200).json({
 			favs
@@ -196,8 +184,6 @@ const createFavorite = async (req, res) => {
 		const user = res.locals.user
 
 		const game = await Game.findByPk(gameId)
-
-		console.log(game)
 
 		const fav = await user.addFavorite(game)
 

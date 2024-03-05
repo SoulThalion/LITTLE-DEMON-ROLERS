@@ -1,10 +1,18 @@
 const Game = require('../models/game.model')
+const Theme = require('../models/theme.model')
 const { Op } = require('sequelize');
 
 async function getAllGames(req, res) {
 	
 	try {
-		const games = await Game.findAll()
+		const games = await Game.findAll({
+			include: [
+				{
+					model: Theme,
+					attributes: ['themeName', 'description'],
+				}
+			]
+		})
 		if (games) {
 			return res.status(200).json(games)
 		} else {

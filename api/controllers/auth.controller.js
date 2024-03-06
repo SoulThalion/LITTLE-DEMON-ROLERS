@@ -27,7 +27,7 @@ const signUp = async (req, res) => {
 
     delete newUser.password;
 
-    return res.status(200).json({ token });
+    return res.status(200).json({ message: '>> Signed up!!', token });
   } catch (error) {
     console.log(error);
     return res.status(404).send('>> Oops something went wrong!');

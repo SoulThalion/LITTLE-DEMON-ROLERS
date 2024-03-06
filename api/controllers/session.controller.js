@@ -118,7 +118,7 @@ async function createSession(req, res) {
 				})
 				return res.status(200).json({ message: 'Session created', session: session })
 			} else {
-				return res.status(404).send('No eres Master de este juego')
+				return res.status(404).send('You are not master of this game')
 			}
 		} catch (error) {
 			res.status(500).send(error.message)
